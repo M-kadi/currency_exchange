@@ -48,7 +48,41 @@ class CurrencyExchangePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),),
         Spacer(),
 
-        Text(this.currencyExchange.rates),
+        ListView.builder(
+          shrinkWrap : true,
+          itemCount: currencyExchange.ratesList.length,
+          itemBuilder: (context, index) {
+            return Container(
+              // add divider : line
+              decoration: BoxDecoration( //                    <-- BoxDecoration
+                border: Border(bottom: BorderSide()),
+              ),
+              child: CurrencyBox(item: currencyExchange.ratesList[index]),
+            );
+          },
+        ),
+
+        // Text(this.currencyExchange.rates),
+      ],
+    );
+  }
+}
+
+class CurrencyBox extends StatelessWidget {
+  CurrencyBox({Key key, this.item}) : super(key: key);
+  final Currency item;
+
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Expanded(child: Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Text(this.item.currencyName,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+        )),
+
+        Expanded(
+            child: Text(this.item.currencyRate.toString()))
       ],
     );
   }
